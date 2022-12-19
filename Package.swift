@@ -1,29 +1,26 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.7
 
 import PackageDescription
 
 let package = Package(
-  name: "CryptoSwift",
+  name: "Crypto",
   platforms: [
-    .macOS(.v10_12), .iOS(.v9), .tvOS(.v9), .watchOS(.v2)
+    .macOS(.v11),
+    .iOS(.v13),
+    .tvOS(.v13),
+    .watchOS(.v9),
+    .driverKit(.v22),
+    .macCatalyst(.v13)
   ],
   products: [
     .library(
-      name: "CryptoSwift",
-      targets: ["CryptoSwift"]
+      name: "Crypto",
+      targets: ["Crypto"]
     )
   ],
   targets: [
-    .target(name: "CryptoSwift"),
-    .testTarget(name: "CryptoSwiftTests", dependencies: ["CryptoSwift"]),
-    .testTarget(name: "TestsPerformance", dependencies: ["CryptoSwift"])
-  ],
-  swiftLanguageVersions: [.v5]
+    .target(name: "Crypto"),
+    .testTarget(name: "CryptoTests", dependencies: ["Crypto"]),
+    .testTarget(name: "TestsPerformance", dependencies: ["Crypto"])
+  ]
 )
-
-#if swift(>=5.6)
-  // Add the documentation compiler plugin if possible
-  package.dependencies.append(
-    .package(url: "https://github.com/apple/swift-docc-plugin", from: "1.0.0")
-  )
-#endif
