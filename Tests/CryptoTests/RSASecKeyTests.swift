@@ -17,7 +17,7 @@
 
   import Security
   import XCTest
-  @testable import CryptoSwift
+  @testable import Crypto
 
   final class RSASecKeyTests: XCTestCase {
 

@@ -17,7 +17,7 @@
 // Text vectors from http://www.nuee.nagoya-u.ac.jp/labs/tiwata/omac/tv/omac1-tv.txt
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 final class CMACTests: XCTestCase {
   func testMessageLength0() {

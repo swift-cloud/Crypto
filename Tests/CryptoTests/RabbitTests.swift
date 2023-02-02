@@ -14,7 +14,7 @@
 //
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 class RabbitTests: XCTestCase {
   func testInitialization() {

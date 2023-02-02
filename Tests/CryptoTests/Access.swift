@@ -14,7 +14,7 @@
 //
 
 // import without @testable to test public API
-import CryptoSwift
+import Crypto
 import Foundation
 import XCTest
 

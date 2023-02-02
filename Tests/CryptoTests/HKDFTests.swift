@@ -14,7 +14,7 @@
 //
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 class HKDFTests: XCTestCase {
   /// All test cases are implemented with regard to RFC 5869

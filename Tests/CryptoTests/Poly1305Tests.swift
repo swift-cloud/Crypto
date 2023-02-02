@@ -15,7 +15,7 @@
 
 import Foundation
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 final class Poly1305Tests: XCTestCase {
   func testPoly1305() {

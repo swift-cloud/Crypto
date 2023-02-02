@@ -16,7 +16,7 @@
 // Test vector from http://www.schneier.com/code/vectors.txt
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 class BlowfishTests: XCTestCase {
   struct TestData {

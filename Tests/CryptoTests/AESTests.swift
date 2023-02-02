@@ -15,7 +15,7 @@
 
 import Foundation
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 final class AESTests: XCTestCase {
   // 128 bit key

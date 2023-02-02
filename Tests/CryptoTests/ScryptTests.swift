@@ -14,14 +14,14 @@
 //
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 class Scrypt: XCTestCase {
 
   func testScrypt_0() {
     let password = Array("password".data(using: .ascii)!)
     let salt = Array("NaCl".data(using: .ascii)!)
-    let deriver = try! CryptoSwift.Scrypt(password: password, salt: salt, dkLen: 64, N: 1024, r: 8, p: 16)
+    let deriver = try! Crypto.Scrypt(password: password, salt: salt, dkLen: 64, N: 1024, r: 8, p: 16)
     let derived = try! deriver.calculate()
     let expected: [UInt8] = Array<UInt8>.init(hex: """
                     fd ba be 1c 9d 34 72 00 78 56 e7 19 0d 01 e9 fe
@@ -35,7 +35,7 @@ class Scrypt: XCTestCase {
   func testScrypt_1() {
     let password = Array("pleaseletmein".data(using: .ascii)!)
     let salt = Array("SodiumChloride".data(using: .ascii)!)
-    let deriver = try! CryptoSwift.Scrypt(password: password, salt: salt, dkLen: 64, N: 16384, r: 8, p: 1)
+    let deriver = try! Crypto.Scrypt(password: password, salt: salt, dkLen: 64, N: 16384, r: 8, p: 1)
     let derived = try! deriver.calculate()
     let expected: [UInt8] = Array<UInt8>.init(hex: """
                     70 23 bd cb 3a fd 73 48 46 1c 06 cd 81 fd 38 eb

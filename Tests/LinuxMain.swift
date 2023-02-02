@@ -1,6 +1,6 @@
 import XCTest
 
-import CryptoSwiftTests
+import CryptoTests
 import TestsPerformance
 
 var tests = [XCTestCaseEntry]()

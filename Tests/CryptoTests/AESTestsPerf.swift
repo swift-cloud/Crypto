@@ -15,7 +15,7 @@
 
 import Foundation
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 final class AESTestsPerf: XCTestCase {
   func testAESEncryptPerformance() {

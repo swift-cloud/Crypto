@@ -17,7 +17,7 @@
 //  https://tools.ietf.org/html/rfc7539#section-2.8.1
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 class ChaCha20Poly1305Tests: XCTestCase {
   static let allTests = [

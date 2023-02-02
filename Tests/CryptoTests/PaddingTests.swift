@@ -14,7 +14,7 @@
 //
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 final class PaddingTests: XCTestCase {
   func testPKCS7_0() {

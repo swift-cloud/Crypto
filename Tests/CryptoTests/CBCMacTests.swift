@@ -13,7 +13,7 @@
 //
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 class CBCMacTests: XCTestCase {
   func testMessageLength0() {

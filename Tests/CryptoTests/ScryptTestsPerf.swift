@@ -14,7 +14,7 @@
 //
 
 import XCTest
-@testable import CryptoSwift
+@testable import Crypto
 
 class ScryptTestsPeft: XCTestCase {
   func testScryptPerformance() {
@@ -22,7 +22,7 @@ class ScryptTestsPeft: XCTestCase {
     let password: Array<UInt8> = Array<UInt8>(repeating: 0, count: 32)
     let salt: Array<UInt8> = Array<UInt8>(repeating: 0, count: 32)
     measure {
-      _ = try! CryptoSwift.Scrypt(password: password, salt: salt, dkLen: 64, N: N, r: 8, p: 1).calculate()
+      _ = try! Crypto.Scrypt(password: password, salt: salt, dkLen: 64, N: N, r: 8, p: 1).calculate()
     }
   }
 }
