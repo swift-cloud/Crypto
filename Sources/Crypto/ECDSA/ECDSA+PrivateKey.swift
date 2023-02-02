@@ -16,7 +16,7 @@ extension ECDSA {
         public init(curve: CurveFp = secp256k1, secret: CS.BigInt? = nil) {
             self.curve = curve
             if (secret == nil) {
-                self.secret = RandomInteger.lessThan(max: curve.N - CS.BigInt(1))
+                self.secret = RandomInteger.between(min: CS.BigInt(1), max: curve.N - CS.BigInt(1))
                 return
             }
             self.secret = secret!

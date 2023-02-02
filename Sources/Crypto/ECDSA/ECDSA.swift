@@ -14,7 +14,7 @@ public class ECDSA {
         let hashMessage = Digest.sha2(message.bytes, variant: variant)
         let numberMessage = BinaryAscii.intFromHex(BinaryAscii.hexFromData(.init(hashMessage)))
         let curve = privateKey.curve
-        let randNum = RandomInteger.lessThan(max: .init(curve.N))
+        let randNum = RandomInteger.between(min: CS.BigInt(1), max: curve.N)
         let randomSignPoint = Math.multiply(curve.G, randNum, curve.N, curve.A, curve.P)
         let r = randomSignPoint.x.modulus(curve.N)
         let s = ((numberMessage + r * privateKey.secret) * (Math.inv(randNum, curve.N))).modulus(curve.N)
