@@ -23,7 +23,9 @@ public class ECDSA {
     
     public static func verify(message: String, signature: Signature, publicKey: PublicKey, variant: SHA2.Variant = .sha256) -> Bool {
         let hashMessage = Digest.sha2(message.bytes, variant: variant)
-        let numberMessage = BinaryAscii.intFromHex(BinaryAscii.hexFromData(.init(hashMessage)))
+        guard let numberMessage = CS.BigInt(hashMessage.toHexString(), radix: 16) else {
+            return false
+        }
         let curve = publicKey.curve
         let r = signature.r
         let s = signature.s

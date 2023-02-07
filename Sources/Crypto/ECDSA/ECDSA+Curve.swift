@@ -63,8 +63,8 @@ public let secp256k1 = ECDSA.CurveFp(
     oid: [1, 3, 132, 0, 10]
 )
 
-public let prime256v1 = ECDSA.CurveFp(
-    name: "prime256v1",
+public let secp256r1 = ECDSA.CurveFp(
+    name: "secp256r1",
     A: CS.BigInt("ffffffff00000001000000000000000000000000fffffffffffffffffffffffc", radix: 16)!,
     B: CS.BigInt("5ac635d8aa3a93e7b3ebbd55769886bc651d06b0cc53b0f63bce3c3e27d2604b", radix: 16)!,
     P: CS.BigInt("ffffffff00000001000000000000000000000000ffffffffffffffffffffffff", radix: 16)!,
@@ -76,7 +76,7 @@ public let prime256v1 = ECDSA.CurveFp(
 
 let supportedCurves = [
     secp256k1,
-    prime256v1
+    secp256r1
 ]
 
 let curvesByOid = supportedCurves.reduce([Array<Int>: ECDSA.CurveFp]()) { (dict, curve) -> [Array<Int>: ECDSA.CurveFp] in

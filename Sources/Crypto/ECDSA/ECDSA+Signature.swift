@@ -25,8 +25,10 @@ extension ECDSA {
         }
 
         public static func fromDer(_ data: Data) throws -> Signature {
-            var hexadecimal = BinaryAscii.hexFromData(data)
-            return try fromString(string: &hexadecimal)
+            return .init(
+                CS.BigInt(CS.BigUInt(data[0..<32])),
+                CS.BigInt(CS.BigUInt(data[0..<32]))
+            )
         }
 
         public func toBase64() -> String {
@@ -43,13 +45,6 @@ extension ECDSA {
                 Der.encodeInteger(self.r),
                 Der.encodeInteger(self.s)
             )
-        }
-
-        public static func fromString(string: inout String) throws -> Signature {
-            let parsed = try Der.parse(&string)[0] as! [Any]
-            let r = parsed[0] as! CS.BigInt
-            let s = parsed[1] as! CS.BigInt
-            return Signature(r, s)
         }
     }
 }
