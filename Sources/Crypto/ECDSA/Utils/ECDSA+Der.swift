@@ -135,8 +135,6 @@ extension ECDSA {
                 contentArray = [parseNull(content)]
             case object:
                 contentArray = [parseOid(content)]
-            case utcTime:
-                contentArray = [parseTime(content)]
             case integer:
                 contentArray = [parseInteger(content)]
             case printableString:
@@ -149,12 +147,6 @@ extension ECDSA {
 
         private static func parseOid(_ hexadecimal: String) -> [Int] {
             return Oid.oidFromHex(hexadecimal)
-        }
-
-        private static func parseTime(_ hexadecimal: String) -> Date {
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyMMddHHmmssZ"
-            return dateFormatter.date(from: parseString(hexadecimal)) ?? Date()
         }
 
         private static func parseString(_ hexadecimal: String) -> String {
