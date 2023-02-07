@@ -27,7 +27,7 @@ extension ECDSA {
         public static func fromDer(_ data: Data) throws -> Signature {
             return .init(
                 CS.BigInt(CS.BigUInt(data[0..<32])),
-                CS.BigInt(CS.BigUInt(data[0..<32]))
+                CS.BigInt(CS.BigUInt(data[32..<64]))
             )
         }
 
