@@ -12,7 +12,15 @@ public struct ECDSA {}
 extension ECDSA.PublicKey {
 
     public func verify(message: String, signature: ECDSA.Signature) -> Bool {
-        let input = Data(message.bytes.sha2(curve.sha2))
+        return verify(bytes: message.bytes, signature: signature)
+    }
+
+    public func verify(data: Data, signature: ECDSA.Signature) -> Bool {
+        return verify(bytes: data.bytes, signature: signature)
+    }
+
+    public func verify(bytes: [UInt8], signature: ECDSA.Signature) -> Bool {
+        let input = Data(bytes.sha2(curve.sha2))
         let m = BigInteger(sign: .plus, magnitude: .init(input))
         let r = signature.r
         let s = signature.s
