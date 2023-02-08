@@ -5,13 +5,15 @@
 //  Created by Rafael Stark on 2/15/21.
 //
 
+import Foundation
+
 public struct ECDSA {}
 
 extension ECDSA.PublicKey {
 
     public func verify(message: String, signature: ECDSA.Signature) -> Bool {
-        let input = message.bytes.sha2(curve.variant).toHexString()
-        let m = BigInteger(input, radix: 16)!
+        let input = Data(message.bytes.sha2(curve.sha2))
+        let m = BigInteger(sign: .plus, magnitude: .init(input))
         let r = signature.r
         let s = signature.s
         if (r < 1 || r >= curve.N) {

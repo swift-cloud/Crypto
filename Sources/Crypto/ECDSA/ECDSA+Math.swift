@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ECDSA+Math.swift
 //  
 //
 //  Created by Rafael Stark on 2/15/21.
@@ -8,7 +8,7 @@
 import Foundation
 
 extension ECDSA {
-    public struct Math {
+    internal struct Math {
 
         /**
          Fast way to multily point and scalar in elliptic curves
@@ -20,8 +20,8 @@ extension ECDSA {
          - Returns: Point that represents the sum of First and Second Point
          */
         static func multiply(_ p: Point, _ n: BigInteger, _ N: BigInteger, _ A: BigInteger, _ P: BigInteger) -> Point {
-            return self._fromJacobian(
-                self._jacobianMultiply(self._toJacobian(p), n, N, A, P), P
+            return _fromJacobian(
+                _jacobianMultiply(_toJacobian(p), n, N, A, P), P
             )
         }
 
@@ -34,8 +34,8 @@ extension ECDSA {
          - Returns: Point that represents the sum of First and Second Point
          */
         static func add(_ p: Point, _ q: Point, _ A: BigInteger, _ P: BigInteger) -> Point {
-            return self._fromJacobian(
-                self._jacobianAdd(self._toJacobian(p), self._toJacobian(q), A, P), P
+            return _fromJacobian(
+                _jacobianAdd(_toJacobian(p), _toJacobian(q), A, P), P
             )
         }
 
@@ -46,8 +46,8 @@ extension ECDSA {
          - Returns: Value representing the division
          */
         static func inv(_ x: BigInteger, _ n: BigInteger) -> BigInteger {
-            if x == BigInteger(0) {
-                return BigInteger(0)
+            if x == 0 {
+                return 0
             }
 
             var lm = BigInteger(1)
@@ -56,7 +56,7 @@ extension ECDSA {
             var high = n
             var r: BigInteger, nm: BigInteger, nw: BigInteger
 
-            while low > BigInteger(1) {
+            while low > 1 {
                 r = high / low
                 nm = hm - lm * r
                 nw = high - low * r
@@ -74,7 +74,7 @@ extension ECDSA {
          - Returns: Point in Jacobian coordinates
          */
         static func _toJacobian(_ p: Point) -> Point {
-            return Point(p.x, p.y, BigInteger(1))
+            return Point(p.x, p.y, 1)
         }
 
         /**
@@ -84,7 +84,7 @@ extension ECDSA {
          - Returns: Point in default coordinates
          */
         static func _fromJacobian(_ p: Point, _ P: BigInteger) -> Point {
-            let z = self.inv(p.z, P)
+            let z = inv(p.z, P)
 
             return Point(
                 (p.x * z.power(2)).modulus(P),
@@ -100,15 +100,15 @@ extension ECDSA {
          - Returns: Point that represents the sum of First and Second Point
          */
         static func _jacobianDouble(_ p: Point, _ A: BigInteger, _ P: BigInteger) -> Point {
-            if p.y == BigInteger(0) {
-                return Point(BigInteger(0), BigInteger(0), BigInteger(0))
+            if p.y == 0 {
+                return Point(0, 0, 0)
             }
             let ysq = (p.y.power(2)).modulus(P)
             let S = (BigInteger(4) * p.x * ysq).modulus(P)
             let M = (BigInteger(3) * p.x.power(2) + A * p.z.power(4)).modulus(P)
-            let nx = (M.power(2) - BigInteger(2) * S).modulus(P)
-            let ny = (M * (S - nx) - BigInteger(8) * ysq.power(2)).modulus(P)
-            let nz = (BigInteger(2) * p.y * p.z).modulus(P)
+            let nx = (M.power(2) - 2 * S).modulus(P)
+            let ny = (M * (S - nx) - 8 * ysq.power(2)).modulus(P)
+            let nz = (2 * p.y * p.z).modulus(P)
             return Point(nx, ny, nz)
         }
 
@@ -121,10 +121,10 @@ extension ECDSA {
          - Returns: Point that represents the sum of First and Second Point
          */
         static func _jacobianAdd(_ p: Point, _ q: Point, _ A: BigInteger, _ P: BigInteger) -> Point {
-            if p.y == BigInteger(0) {
+            if p.y == 0 {
                 return q
             }
-            if q.y == BigInteger(0) {
+            if q.y == 0 {
                 return p
             }
 
@@ -135,9 +135,9 @@ extension ECDSA {
 
             if U1 == U2 {
                 if S1 != S2 {
-                    return Point(BigInteger(0), BigInteger(0), BigInteger(1))
+                    return Point(0, 0, 1)
                 }
-                return self._jacobianDouble(p, A, P)
+                return _jacobianDouble(p, A, P)
             }
 
             let H = U2 - U1
@@ -145,7 +145,7 @@ extension ECDSA {
             let H2 = (H * H) % P
             let H3 = (H * H2) % P
             let U1H2 = (U1 * H2) % P
-            let nx = (R.power(2) - H3 - BigInteger(2) * U1H2).modulus(P)
+            let nx = (R.power(2) - H3 - 2 * U1H2).modulus(P)
             let ny = (R * (U1H2 - nx) - S1 * H3).modulus(P)
             let nz = (H * p.z * q.z).modulus(P)
 
@@ -162,21 +162,20 @@ extension ECDSA {
          - Returns: Point that represents the sum of First and Second Point
          */
         static func  _jacobianMultiply(_ p: Point, _ n: BigInteger, _ N: BigInteger, _ A: BigInteger, _ P: BigInteger) -> Point {
-            if p.y == BigInteger(0) || n == BigInteger(0) {
-                return Point(BigInteger(0), BigInteger(0), BigInteger(1))
+            if p.y == 0 || n == 0 {
+                return Point(0, 0, 1)
             }
-            if n == BigInteger(1) {
+            if n == 1 {
                 return p
             }
-            if n < BigInteger(0) || n >= N {
-                return self._jacobianMultiply(p, n % N, N, A, P)
+            if n < 0 || n >= N {
+                return _jacobianMultiply(p, n % N, N, A, P)
             }
-
-            if n % 2 == BigInteger(0) {
-                return self._jacobianDouble(self._jacobianMultiply(p, n / BigInteger(2), N, A, P), A, P)
+            if n % 2 == 0 {
+                return _jacobianDouble(_jacobianMultiply(p, n / 2, N, A, P), A, P)
             }
-            return self._jacobianAdd(
-                self._jacobianDouble(self._jacobianMultiply(p, n / BigInteger(2), N, A, P), A, P), p, A, P
+            return _jacobianAdd(
+                _jacobianDouble(_jacobianMultiply(p, n / 2, N, A, P), A, P), p, A, P
             )
         }
     }
