@@ -1,3 +1,3 @@
-# Crypto
+# Crypto (Deprecated)
 
-This is a forked version of [CryptoSwift](https://github.com/krzyzanowskim/CryptoSwift) by [Marcin Krzyzanowski](http://krzyzanowskim.com/) specifically for use on Fastly Compute@Edge and the [Compute](https://github.com/swift-cloud/Compute) package.
+**[Compute](https://github.com/swift-cloud/Compute) has switched to [apple/swift-crypto](https://github.com/apple/swift-crypto).**
