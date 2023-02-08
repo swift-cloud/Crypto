@@ -161,22 +161,21 @@ extension ECDSA {
          - Parameter A: Coefficient of the first-order term of the equation Y^2 = X^3 + A*X + B (mod p)
          - Returns: Point that represents the sum of First and Second Point
          */
-        static func  _jacobianMultiply(_ p: Point, _ n: BigInteger, _ N: BigInteger, _ A: BigInteger, _ P: BigInteger) -> Point {
-            if p.y == 0 || n == 0 {
-                return Point(0, 0, 1)
+        static func _jacobianMultiply(_ p: Point, _ n: BigInteger, _ N: BigInteger, _ A: BigInteger, _ P: BigInteger) -> Point {
+            var result = Point(0, 0, 1)
+            var currentPoint = p
+            var n = n
+
+            while n != 0 {
+                if n % 2 == 1 {
+                    result = _jacobianAdd(result, currentPoint, A, P)
+                }
+                currentPoint = _jacobianDouble(currentPoint, A, P)
+                n /= 2
             }
-            if n == 1 {
-                return p
-            }
-            if n < 0 || n >= N {
-                return _jacobianMultiply(p, n % N, N, A, P)
-            }
-            if n % 2 == 0 {
-                return _jacobianDouble(_jacobianMultiply(p, n / 2, N, A, P), A, P)
-            }
-            return _jacobianAdd(
-                _jacobianDouble(_jacobianMultiply(p, n / 2, N, A, P), A, P), p, A, P
-            )
+
+            return result
         }
+
     }
 }
