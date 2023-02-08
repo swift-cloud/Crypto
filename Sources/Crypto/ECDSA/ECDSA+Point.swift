@@ -8,20 +8,22 @@
 import Foundation
 
 extension ECDSA {
-    public class Point {
+    public struct Point {
 
-        public var x: CS.BigInt
-        public var y: CS.BigInt
-        public var z: CS.BigInt
+        public let x: BigInteger
 
-        public init(_ x: CS.BigInt = CS.BigInt(0), _ y: CS.BigInt = CS.BigInt(0), _ z: CS.BigInt = CS.BigInt(0)) {
+        public let y: BigInteger
+
+        public let z: BigInteger
+
+        public init(_ x: BigInteger = 0, _ y: BigInteger = 0, _ z: BigInteger = 0) {
             self.x = x
             self.y = y
             self.z = z
         }
 
-        func isAtInfinity() -> Bool {
-            return self.y == CS.BigInt(0)
+        public var isAtInfinity: Bool {
+            return y == 0
         }
     }
 }
