@@ -10,9 +10,9 @@ import Foundation
 extension ECDSA {
     public struct Signature {
 
-        public var r: BigInteger
+        public let r: BigInteger
 
-        public var s: BigInteger
+        public let s: BigInteger
 
         public init(r: BigInteger, s: BigInteger) {
             self.r = r
